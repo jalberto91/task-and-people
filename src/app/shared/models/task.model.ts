@@ -5,12 +5,12 @@ export enum TaskStatus {
     "Pending" = 2,
   }
 
-export class Task {
+export class TaskItem {
     constructor(
       public id: string = null,
       public name: string = null,
       public status: TaskStatus = TaskStatus.Pending,
-      public endLine: Date = new Date(),
+      public deadline: Date = new Date(),
       public persons: Array<People> = new Array<People>()
     ) {}
   }
