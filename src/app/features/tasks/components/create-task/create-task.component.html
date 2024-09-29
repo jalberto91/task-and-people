@@ -1,1 +1,100 @@
-<p>create-task works!</p>
+<div class="container">
+  <h1 class="h3 text-center py-5 mb-0">Crear nueva tarea</h1>
+  <div class="card">
+    <section>
+      <div class="mb-4">
+        <div class="card-body" #container>
+          <div class="row">
+            <form [formGroup]="taskForm" autocomplete="off" class="col-12">
+              <div class="col-md-6">
+                <mdb-form-control class="mb-4">
+                  <input
+                    mdbValidate
+                    mdbInput
+                    type="text"
+                    id="formName"
+                    class="form-control"
+                    formControlName="name"
+                  />
+                  <label mdbLabel class="form-label" for="formName">
+                    Nombre de la tarea <span>*</span>
+                  </label>
+                  <div
+                    class="label-error-form"
+                    *ngIf="isControlInvalid('name')"
+                  >
+                    <mdb-error> El nombre es requerido</mdb-error>
+                  </div>
+                </mdb-form-control>
+              </div>
+
+              <div class="col-md-6" >
+                <mdb-form-control class="mb-4">
+                  <input
+                    readonly="readonly"
+                    mdbInput
+                    [mdbDatepicker]="datepicker"
+                    type="text"
+                    class="form-control bg-transparent"
+                    id="dateFilter"
+                    (click)="datepicker.open()"
+                    name="dateFilter"
+                    formControlName="deadLine"
+                  />
+                  <label mdbLabel for="dateFilter" class="form-label">Seleccione una fecha</label>
+                  <div
+                      class="label-error-form"
+                      *ngIf="isControlInvalid('deadLine')"
+                    >
+                      <mdb-error>
+                        La fecha es requerida
+                      </mdb-error>
+                    </div>
+                  <mdb-datepicker-toggle
+                    [mdbDatepicker]="datepicker"
+                  ></mdb-datepicker-toggle>
+                  <mdb-datepicker
+                    [options]="datePickerOption"
+                    removeClearBtn="true"
+                    [format]="'dd/mm/yyyy'"
+                    #datepicker
+                  ></mdb-datepicker>
+                </mdb-form-control>
+              </div>
+
+              <div class="col-12">
+                <p class="mb-0">Personas Asociadas:</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="card-footer text-muted">
+      <div class="row">
+        <div class="col-sm-12 text-center text-sm-end">
+          <button
+            class="btn btn-danger actionButton mb-2 me-2"
+            (click)="goBackToProviderList()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success mb-2 submit actionButton"
+            (click)="submitTask()"
+          >
+            <ng-container *ngIf="isActionInprogress">
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </ng-container>
+            <span *ngIf="!isActionInprogress">Crear</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
