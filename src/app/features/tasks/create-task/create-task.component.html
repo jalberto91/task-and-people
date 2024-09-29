@@ -96,6 +96,15 @@
                             caracteres</mdb-error
                           >
                         </div>
+
+                        <div
+                          *ngIf="persons.hasError('nonUniqueName')"
+                          class="label-error-form"
+                        >
+                          <mdb-error>
+                            Los nombres no pueden estar duplicados.</mdb-error
+                          >
+                        </div>
                       </mdb-form-control>
                     </div>
 
@@ -127,7 +136,9 @@
                     <mdb-chips>
                       <mdb-form-control
                         class="chips-input-wrapper chips-transition"
-                        [class.chips-padding]="person.get('skills').value.length  > 0"
+                        [class.chips-padding]="
+                          person.get('skills').value.length > 0
+                        "
                       >
                         <mdb-chip
                           [customClass]="
@@ -135,7 +146,10 @@
                               ? 'chip-outline btn-outline-danger'
                               : 'chip-outline btn-outline-success'
                           "
-                          *ngFor="let url of getSkills(i).controls;let j = index"
+                          *ngFor="
+                            let url of getSkills(i).controls;
+                            let j = index
+                          "
                           (deleted)="deleteSkill(i, j)"
                         >
                           <span
@@ -199,31 +213,31 @@
       </div>
     </section>
     <div class="card-footer text-muted">
-        <div class="row">
-          <div class="col-sm-12 text-center text-sm-end">
-            <button
-              class="btn btn-danger actionButton mb-2 me-2"
-              (click)="goBackToProviderList()"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              class="btn btn-success mb-2 submit actionButton"
-              [disabled]="this.taskForm.invalid"
-              (click)="submitTask()"
-            >
-              <ng-container *ngIf="isActionInprogress">
-                <span
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-              </ng-container>
-              <span *ngIf="!isActionInprogress">Crear</span>
-            </button>
-          </div>
+      <div class="row">
+        <div class="col-sm-12 text-center text-sm-end">
+          <button
+            class="btn btn-danger actionButton mb-2 me-2"
+            (click)="goBackToProviderList()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success mb-2 submit actionButton"
+            [disabled]="this.taskForm.invalid"
+            (click)="submitTask()"
+          >
+            <ng-container *ngIf="isActionInprogress">
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </ng-container>
+            <span *ngIf="!isActionInprogress">Crear</span>
+          </button>
         </div>
       </div>
+    </div>
   </div>
 </div>

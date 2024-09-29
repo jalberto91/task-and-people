@@ -1,0 +1,18 @@
+.card {
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-filters {
+    backdrop-filter: blur(5px);
+    animation: adjust-card-filters 1.5s both;
+  }
+  
+  @keyframes adjust-card-filters {
+    to {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+  

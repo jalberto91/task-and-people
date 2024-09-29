@@ -1,1 +1,57 @@
-<p>task-list works!</p>
+<div class="container">
+  <h1 class="h3 text-center py-5 mb-0">Lista de Tareas</h1>
+  <section #boundary>
+    <div
+      mdbSticky
+      [stickyActiveClass]="'card-filters'"
+      [stickyBoundary]="boundary"
+      [stickyOffset]="64"
+      [stickyDirection]="'both'"
+      class="card mb-3 sticky"
+    >
+      <div class="card-body pb-3">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <mdb-form-control class="w-auto">
+              <mdb-select
+                [filter]="true"
+                filterPlaceholder="Buscar..."
+                notFoundMsg="No hay resultados..."
+                id="taskStatusFilter"
+                [ngModel]="selectedStatus"
+                (valueChange)="onSelectStatus($event)"
+                class="w-auto"
+              >
+                <mdb-option
+                  class="profiles-mdb-options"
+                  *ngFor="let state of taskStatusOptions"
+                  [value]="state.value"
+                  >{{ state.label }}</mdb-option
+                >
+              </mdb-select>
+              <label mdbLabel class="form-label" for="drawStatusFilter"
+                >Estado</label
+              >
+            </mdb-form-control>
+          </div>
+          <div class="col-12 col-md d-flex justify-content-md-end">
+            <button
+              mdbRipple
+              class="btn btn-success"
+              [routerLink]="['../create']"
+            >
+              Nueva
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="tasks.length">
+        <div class="row">
+          <div *ngFor="let task of tasks; trackBy: trackByTaskId" class="col-md-6 col-lg-4 mb-4">
+            <app-task-card [task]="task" (changeStatus)="onChangeTaskStatus($event)"></app-task-card>
+          </div>
+        </div>
+      </ng-container>
+  </section>
+</div>

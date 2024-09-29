@@ -5,7 +5,7 @@ export const dummyTasks: TaskItem[] = [
     id: "1",
     name: "Task 1",
     status: 2,
-    deadline: new Date("2024-10-01T00:00:00.000Z"),
+    deadLine: new Date("2024-10-01T00:00:00.000Z"),
     persons: [
       {
         id: "1",
@@ -25,7 +25,7 @@ export const dummyTasks: TaskItem[] = [
     id: "2",
     name: "Task 2",
     status: 1,
-    deadline: new Date("2024-10-05T00:00:00.000Z"),
+    deadLine: new Date("2024-10-05T00:00:00.000Z"),
     persons: [
       {
         id: "3",
@@ -39,7 +39,7 @@ export const dummyTasks: TaskItem[] = [
     id: "3",
     name: "Task 3",
     status: 2,
-    deadline: new Date("2024-10-10T00:00:00.000Z"),
+    deadLine: new Date("2024-10-10T00:00:00.000Z"),
     persons: [
       {
         id: "4",

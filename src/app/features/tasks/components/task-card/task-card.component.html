@@ -1,0 +1,38 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h5 class="card-title">{{ task.name }}</h5>
+  </div>
+  <div class="card-body">
+    <h6>Personas asociadas:</h6>
+    <ul>
+      <li *ngFor="let person of task.persons">
+        <strong>{{ person.fullName }}</strong> (Edad: {{ person.age }} años)
+        <ul>
+          <li *ngFor="let skill of person.skills">{{ skill }}</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>
+      <strong>Fecha límite:</strong> {{ task.deadLine | date : "dd/MM/yyyy" }}
+    </p>
+  </div>
+  <div class="card-footer d-flex justify-content-between">
+    <span
+      class="badge"
+      [ngClass]="{
+        'bg-warning': task.status === pendingStatus,
+        'bg-success': task.status === finishedStatus
+      }"
+    >
+      {{ task.status === pendingStatus ? "Pendiente" : "Finalizada" }}
+    </span>
+    <button
+      class="btn btn-outline-success"
+      *ngIf="task.status === pendingStatus"
+      (click)="onChangeStatus()"
+    >
+      Marcar como finalizada
+    </button>
+  </div>
+</div>

@@ -3,9 +3,13 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MdbChipAddEvent } from "mdb-angular-ui-kit/chips";
 import { MdbDatepickerOptions } from "mdb-angular-ui-kit/datepicker";
-import { REQUIRED_VALIDATION } from '../../../../shared/constants';
-import { minLengthWithoutSpacesValidator } from "../../../../shared/utilities/validators";
-import { DATE_PICKER_SPANISH_OPTIONS, SKILL_REQUIRED_MESSAGE } from "../../constants";
+import { REQUIRED_VALIDATION } from "../../../shared/constants";
+import { minLengthWithoutSpacesValidator } from "../../../shared/utilities/validators";
+import {
+  DATE_PICKER_SPANISH_OPTIONS,
+  SKILL_REQUIRED_MESSAGE,
+} from "../constants";
+import { TaskService } from "../services/task.service";
 
 @Component({
   selector: "app-create-task",
@@ -20,7 +24,8 @@ export class CreateTaskComponent {
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private taskService: TaskService
   ) {
     this.datePickerOption = DATE_PICKER_SPANISH_OPTIONS;
     this.initFormGroup();
@@ -32,7 +37,7 @@ export class CreateTaskComponent {
       deadLine: ["", [Validators.required]],
       persons: this.formBuilder.array(
         [],
-        [Validators.required, this.minLengthArray(1)]
+        [Validators.required, this.minLengthArray(1), this.uniqueNameValidator]
       ),
     });
   }
@@ -47,8 +52,8 @@ export class CreateTaskComponent {
   }
 
   public getSkills(personIndex: number): FormArray {
-    return this.persons.at(personIndex).get('skills') as FormArray;
-    }
+    return this.persons.at(personIndex).get("skills") as FormArray;
+  }
 
   public addPerson(): void {
     this.persons.push(this.createPersonFormGroup());
@@ -60,7 +65,7 @@ export class CreateTaskComponent {
 
   private createPersonFormGroup(): FormGroup {
     return this.formBuilder.group({
-      age: ["", [Validators.required, Validators.min(18)]],
+      age: ["", [Validators.required, Validators.min(19)]],
       fullName: ["", [Validators.required, minLengthWithoutSpacesValidator(5)]],
       skills: this.formBuilder.array([], [Validators.required]),
     });
@@ -102,9 +107,25 @@ export class CreateTaskComponent {
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 
-  protected submitTask(): void {
+  private uniqueNameValidator(formArray: FormArray) {
+    const names = formArray.controls.map((control) =>
+      control.get("fullName").value?.toLowerCase()
+    );
+    const duplicates = names.filter(
+      (name, index) => names.indexOf(name) !== index
+    );
+
+    if (duplicates.length > 0) {
+      return { nonUniqueName: true };
+    }
+
+    return null;
+  }
+
+  public submitTask(): void {
     if (this.taskForm.valid) {
-      console.log(this.taskForm.value);
+      this.taskService.createTask(this.taskForm.value);
+      this.goBackToProviderList();
     }
   }
 }
