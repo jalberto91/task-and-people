@@ -17,16 +17,7 @@
       <strong>Fecha límite:</strong> {{ task.deadLine | date : "dd/MM/yyyy" }}
     </p>
   </div>
-  <div class="card-footer d-flex justify-content-between">
-    <span
-      class="badge"
-      [ngClass]="{
-        'bg-warning': task.status === pendingStatus,
-        'bg-success': task.status === finishedStatus
-      }"
-    >
-      {{ task.status === pendingStatus ? "Pendiente" : "Finalizada" }}
-    </span>
+  <div class="card-footer d-flex justify-content-end">
     <button
       class="btn btn-outline-success"
       *ngIf="task.status === pendingStatus"
