@@ -28,7 +28,7 @@
                 </mdb-form-control>
               </div>
 
-              <div class="col-md-6" >
+              <div class="col-md-6">
                 <mdb-form-control class="mb-4">
                   <input
                     readonly="readonly"
@@ -41,15 +41,15 @@
                     name="dateFilter"
                     formControlName="deadLine"
                   />
-                  <label mdbLabel for="dateFilter" class="form-label">Seleccione una fecha</label>
+                  <label mdbLabel for="dateFilter" class="form-label"
+                    >Seleccione una fecha</label
+                  >
                   <div
-                      class="label-error-form"
-                      *ngIf="isControlInvalid('deadLine')"
-                    >
-                      <mdb-error>
-                        La fecha es requerida
-                      </mdb-error>
-                    </div>
+                    class="label-error-form"
+                    *ngIf="isControlInvalid('deadLine')"
+                  >
+                    <mdb-error>La fecha es requerida</mdb-error>
+                  </div>
                   <mdb-datepicker-toggle
                     [mdbDatepicker]="datepicker"
                   ></mdb-datepicker-toggle>
@@ -63,7 +63,135 @@
               </div>
 
               <div class="col-12">
-                <p class="mb-0">Personas Asociadas:</p>
+                <p>Personas Asociadas:</p>
+                <div formArrayName="persons" class="mb-3">
+                  <div
+                    *ngFor="let person of persons.controls; let i = index"
+                    [formGroupName]="i"
+                    class="row mb-3"
+                  >
+                    <div class="col-md-6">
+                      <mdb-form-control class="mb-4">
+                        <input
+                          mdbValidate
+                          mdbInput
+                          type="text"
+                          id="formFullName{{ i }}"
+                          class="form-control"
+                          formControlName="fullName"
+                        />
+                        <label
+                          mdbLabel
+                          class="form-label"
+                          for="formFullName{{ i }}"
+                        >
+                          Nombre Completo <span>*</span>
+                        </label>
+                        <div
+                          class="label-error-form"
+                          *ngIf="isControlInvalid('persons.' + i + '.fullName')"
+                        >
+                          <mdb-error>
+                            El nombre debe contener al menos 5
+                            caracteres</mdb-error
+                          >
+                        </div>
+                      </mdb-form-control>
+                    </div>
+
+                    <div class="col-md-6">
+                      <mdb-form-control class="mb-4">
+                        <input
+                          mdbValidate
+                          mdbInput
+                          type="number"
+                          id="formAge{{ i }}"
+                          class="form-control"
+                          formControlName="age"
+                        />
+                        <label mdbLabel class="form-label" for="formAge{{ i }}">
+                          Edad <span>*</span>
+                        </label>
+                        <div
+                          class="label-error-form"
+                          *ngIf="isControlInvalid('persons.' + i + '.age')"
+                        >
+                          <mdb-error>
+                            La edad es requerida y debe ser mayor a
+                            18</mdb-error
+                          >
+                        </div>
+                      </mdb-form-control>
+                    </div>
+
+                    <mdb-chips>
+                      <mdb-form-control
+                        class="chips-input-wrapper chips-transition"
+                        [class.chips-padding]="person.get('skills').value.length  > 0"
+                      >
+                        <mdb-chip
+                          [customClass]="
+                            url.invalid
+                              ? 'chip-outline btn-outline-danger'
+                              : 'chip-outline btn-outline-success'
+                          "
+                          *ngFor="let url of getSkills(i).controls;let j = index"
+                          (deleted)="deleteSkill(i, j)"
+                        >
+                          <span
+                            [class]="
+                              url.invalid
+                                ? 'text-chip text-danger'
+                                : 'text-chip text-success'
+                            "
+                            >{{ url.value }}</span
+                          >
+                          <i class="close fas fa-times" mdbChipDelete></i>
+                        </mdb-chip>
+                        <input
+                          mdbChipsInput
+                          mdbValidate
+                          type="text"
+                          id="formSkills{{ i }}"
+                          class="form-control chips-input"
+                          formArrayName="skills"
+                          (chipAdd)="addSkill($event, i)"
+                          (blur)="markControlAsTouched('skills', i)"
+                        />
+                        <label
+                          mdbLabel
+                          class="form-label"
+                          for="formSkills{{ i }}"
+                          >Habilidades <span>*</span></label
+                        >
+                      </mdb-form-control>
+                      <div class="row mb-4">
+                        <span
+                          class="error-input-text"
+                          *ngIf="isControlInvalid('persons.' + i + '.skills')"
+                          >{{ getErrorSkillField(i) }}</span
+                        >
+                      </div>
+                    </mdb-chips>
+
+                    <div class="col-12 text-center">
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="deletePerson(i)"
+                      >
+                        Eliminar Persona
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addPerson()"
+                >
+                  Agregar Persona
+                </button>
               </div>
             </form>
           </div>
@@ -71,30 +199,31 @@
       </div>
     </section>
     <div class="card-footer text-muted">
-      <div class="row">
-        <div class="col-sm-12 text-center text-sm-end">
-          <button
-            class="btn btn-danger actionButton mb-2 me-2"
-            (click)="goBackToProviderList()"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            class="btn btn-success mb-2 submit actionButton"
-            (click)="submitTask()"
-          >
-            <ng-container *ngIf="isActionInprogress">
-              <span
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-            </ng-container>
-            <span *ngIf="!isActionInprogress">Crear</span>
-          </button>
+        <div class="row">
+          <div class="col-sm-12 text-center text-sm-end">
+            <button
+              class="btn btn-danger actionButton mb-2 me-2"
+              (click)="goBackToProviderList()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success mb-2 submit actionButton"
+              [disabled]="this.taskForm.invalid"
+              (click)="submitTask()"
+            >
+              <ng-container *ngIf="isActionInprogress">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </ng-container>
+              <span *ngIf="!isActionInprogress">Crear</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
