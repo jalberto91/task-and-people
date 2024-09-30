@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBModulesModule } from '../../shared/modules/mdb/mdb.module';
 import { TaskCardComponent } from './components/task-card/task-card.component';
-import { TaskItemComponent } from './components/task-item/task-item.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
 import { TaskService } from './services/task.service';
 import { TaskListComponent } from './task-list/task-list.component';
@@ -24,7 +23,6 @@ import { TaskComponent } from './task/task.component';
     FormsModule,
     ReactiveFormsModule,
     MDBModulesModule,
-    TaskItemComponent,
     TaskRoutingModule,
   ],
   providers:[TaskService]
