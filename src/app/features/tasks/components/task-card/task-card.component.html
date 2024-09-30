@@ -20,7 +20,7 @@
   <div class="card-footer d-flex justify-content-end">
     <button
       class="btn btn-outline-success"
-      *ngIf="task.status === pendingStatus"
+      *ngIf="task.status === TaskStatus.Pending"
       (click)="onChangeStatus()"
     >
       Marcar como finalizada

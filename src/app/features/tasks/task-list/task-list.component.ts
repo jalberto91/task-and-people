@@ -11,6 +11,7 @@ import { TaskService } from "../services/task.service";
 })
 export class TaskListComponent implements OnInit {
   public tasks: TaskItem[] = [];
+  public filteredTasks: TaskItem[] = [];
   public selectedStatus: TaskStatus;
   public taskStatusOptions: TaskStatusOption[] = [];
 
@@ -21,6 +22,7 @@ export class TaskListComponent implements OnInit {
   ngOnInit(): void {
     this.selectedStatus = TaskStatus.All;
     this.tasks = this.taskService.getTasks();
+    this.filteredTasks = [...this.tasks];
     console.log(this.tasks);
   }
 
@@ -29,14 +31,27 @@ export class TaskListComponent implements OnInit {
   }
 
   public onSelectStatus(status: number): void {
-    console.log(status);
+    this.selectedStatus = status;
+    this.filterTasks();
+  }
+
+  private filterTasks(): void {
+    if (this.selectedStatus === TaskStatus.All) {
+      this.filteredTasks = this.tasks;
+      return;
+    }
+
+    this.filteredTasks = this.tasks.filter(
+      (task) => task.status === this.selectedStatus
+    );
   }
 
   public onChangeTaskStatus(taskId: string): void {
     const task = this.tasks.find((t) => t.id === taskId);
     if (task) {
       task.status = TaskStatus.Finished;
-      // Aquí podrías llamar a un servicio si necesitas actualizar el estado en el backend
+      this.taskService.updateTask(task);
+      this.filterTasks();
     }
   }
 }

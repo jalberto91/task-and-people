@@ -9,8 +9,7 @@ import { TaskItem, TaskStatus } from "../../../../shared/models/task.model";
 export class TaskCardComponent {
   @Input() task: TaskItem;
   @Output() changeStatus = new EventEmitter<string>();
-  public pendingStatus: TaskStatus.Pending;
-  public finishedStatus: TaskStatus.Finished;
+  public TaskStatus = TaskStatus;
 
   public onChangeStatus(): void {
     this.changeStatus.emit(this.task.id);

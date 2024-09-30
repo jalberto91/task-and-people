@@ -46,9 +46,9 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="tasks.length">
+    <ng-container *ngIf="filteredTasks.length">
         <div class="row">
-          <div *ngFor="let task of tasks; trackBy: trackByTaskId" class="col-md-6 col-lg-4 mb-4">
+          <div *ngFor="let task of filteredTasks; trackBy: trackByTaskId" class="col-md-6 col-lg-4 mb-4">
             <app-task-card [task]="task" (changeStatus)="onChangeTaskStatus($event)"></app-task-card>
           </div>
         </div>
