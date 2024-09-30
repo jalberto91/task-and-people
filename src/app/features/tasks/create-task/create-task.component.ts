@@ -20,6 +20,7 @@ export class CreateTaskComponent {
   public isActionInprogress = false;
   public taskForm: FormGroup;
   public datePickerOption: MdbDatepickerOptions;
+  public pastDates = new Date(new Date().setHours(0, 0, 0, 0));
 
   constructor(
     protected router: Router,
