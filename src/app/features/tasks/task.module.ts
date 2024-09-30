@@ -14,7 +14,6 @@ import { TaskComponent } from './task/task.component';
 @NgModule({
   declarations: [
     CreateTaskComponent,
-    TaskCardComponent,
     TaskComponent,
     TaskListComponent
   ],
@@ -23,6 +22,7 @@ import { TaskComponent } from './task/task.component';
     FormsModule,
     ReactiveFormsModule,
     MDBModulesModule,
+    TaskCardComponent,
     TaskRoutingModule,
   ],
   providers:[TaskService]

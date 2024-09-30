@@ -1,8 +1,11 @@
+import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TaskItem, TaskStatus } from "../../../../shared/models/task.model";
 
 @Component({
   selector: "app-task-card",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./task-card.component.html",
   styleUrl: "./task-card.component.scss",
 })
