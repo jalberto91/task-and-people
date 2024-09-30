@@ -19,11 +19,10 @@ export class TaskListComponent implements OnInit {
     this.taskStatusOptions = TASK_STATUS_OPTIONS;
   }
 
-  ngOnInit(): void {
+ public ngOnInit(): void {
     this.selectedStatus = TaskStatus.All;
     this.tasks = this.taskService.getTasks();
     this.filteredTasks = [...this.tasks];
-    console.log(this.tasks);
   }
 
   public trackByTaskId(index: number, task: TaskItem): string {
