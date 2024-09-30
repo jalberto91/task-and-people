@@ -46,12 +46,21 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="filteredTasks.length">
-        <div class="row">
-          <div *ngFor="let task of filteredTasks; trackBy: trackByTaskId" class="col-md-6 col-lg-4 mb-4">
-            <app-task-card [task]="task" (changeStatus)="onChangeTaskStatus($event)"></app-task-card>
-          </div>
+    <ng-container *ngIf="filteredTasks.length; else emptyTaskList">
+      <div class="row">
+        <div
+          *ngFor="let task of filteredTasks; trackBy: trackByTaskId"
+          class="col-md-6 col-lg-4 mb-4"
+        >
+          <app-task-card
+            [task]="task"
+            (changeStatus)="onChangeTaskStatus($event)"
+          ></app-task-card>
         </div>
-      </ng-container>
+      </div>
+    </ng-container>
+    <ng-template #emptyTaskList>
+      <div class="text-center col-12 mt-5">No existen tareas creadas...</div>
+    </ng-template>
   </section>
 </div>
